@@ -1,4 +1,6 @@
 import React from 'react';
+import AddLocation from './AddLocation.jsx';
+import LocationDetails from './LocationDetails.jsx';
 
 //the map component basically wraps around the google maps api
 //it can take a list of pins (in format specified by api) and display them
@@ -56,17 +58,14 @@ class Map extends React.Component {
       zoom: this.props.zoom
     });
 
-    this.data.map.addListener('click', (ev) => {
-      this.props.selectCoords(ev.latLng.lng(), ev.latLng.lat());
-      this.setState({
-        currentPin: {
-          lat: ev.latLng.lat(),
-          lng: ev.latLng.lng(),
-          id: -1,
-          creating: true
-        }
-      });
-    });
+    this.data.map.addListener('click', (ev) => this.setState({
+      currentPin: {
+        lat: ev.latLng.lat(),
+        lng: ev.latLng.lng(),
+        id: -1,
+        creating: true
+      }
+    }));
 
     this.drawPins(this.state.pins);
   }
@@ -116,7 +115,7 @@ class Map extends React.Component {
     }
   }
 
-  checkPins(newProps, newState) {
+  componentWillUpdate(newProps, newState) {
     if (newState.pins !== this.state.pins) {
       console.log('redrawing all pins from state');
       this.drawPins(newState.pins);
@@ -124,18 +123,6 @@ class Map extends React.Component {
       console.log('redrawing all pins from props');
       this.drawPins(newProps.pins);
       this.setState({ pins: newProps.pins });
-    }
-  }
-
-  componentWillUpdate(newProps, newState) {
-    this.checkPins(newProps, newState);
-
-    if (newProps.lat !== this.props.lat || newProps.lng !== this.props.lng) {
-      this.data.map.panTo({ lat: newProps.lat, lng: newProps.lng });
-    }
-
-    if (newProps.zoom !== this.props.zoom) {
-      this.data.map.setZoom(Math.floor(parseFloat(newProps.zoom)));
     }
 
     if (newState.currentPin !== this.state.currentPin) {
@@ -153,7 +140,28 @@ class Map extends React.Component {
   }
 
   render() {
-    return (<div className="map" ref="gmap"></div>);
+    let locationDetails = '';
+
+    if (this.state.currentPin) {
+      if (this.state.currentPin.creating) {
+        locationDetails = <AddLocation
+          lng={this.state.currentPin.lng}
+          lat={this.state.currentPin.lat}
+          pinAdded={this.pinAdded.bind(this)}/>;
+      } else {
+        locationDetails = <LocationDetails
+          lng={this.state.currentPin.lng}
+          lat={this.state.currentPin.lat}
+          name={this.state.currentPin.name}/>;
+      }
+    }
+
+    return (
+      <div>
+        <div className="map" ref="gmap"></div>
+        {locationDetails}
+      </div>
+    );
   }
 }
 
@@ -161,8 +169,7 @@ Map.propTypes = {
   lat: React.PropTypes.number,
   lng: React.PropTypes.number,
   zoom: React.PropTypes.number,
-  pins: React.PropTypes.array,
-  selectCoords: React.PropTypes.func
+  pins: React.PropTypes.array
 };
 
 Map.defaultProps = {

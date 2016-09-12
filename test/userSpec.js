@@ -14,7 +14,7 @@ describe('user api endpoint (/api/users)', () => {
   describe('get user', () => {
     xit('should get all users (/api/users)');
 
-    xit('should get a single user (/api/users/:name)', (done) => {
+    it('should get a single user (/api/users/:name)', (done) => {
       chai.request(server)
         .get('/api/users/testOne')
         .then((res) => {
@@ -36,7 +36,7 @@ describe('user api endpoint (/api/users)', () => {
     });
   });
 
-  xdescribe('signup', () => {
+  describe('signup', () => {
     it('should create and return a new user (/api/users)',
       (done) => {
         chai
@@ -68,7 +68,7 @@ describe('user api endpoint (/api/users)', () => {
       });
   });
 
-  xdescribe('delete user', () => {
+  describe('delete user', () => {
     it('should a user with name queried (DELETE /api/users/:name)', (done) => {
       chai.request(server)
         .delete('/api/users/testUser')

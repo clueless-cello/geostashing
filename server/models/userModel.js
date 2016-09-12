@@ -1,6 +1,8 @@
 const Sequelize = require('sequelize');
 const db = require('./db');
 
+const Location = require('./locationModel');
+
 const User = db.define('user', {
   id: {
     type: Sequelize.UUID,
@@ -12,8 +14,14 @@ const User = db.define('user', {
     type: Sequelize.STRING,
     unique: true,
     allowNull: false
-  },
-  password: { type: Sequelize.STRING }
+  }
+});
+
+User.hasMany(Location, {
+  foreignKey: {
+    name: 'userId',
+    allowNull: false
+  }
 });
 
 module.exports = User;

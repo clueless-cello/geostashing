@@ -3,14 +3,10 @@ const db = require('../models/db');
 //models
 const User = require('../models/userModel');
 const Location = require('../models/locationModel');
-const Product = require('../models/productModel');
-const Image = require('../models/imageModel');
 
 //fixtures
 const UserFixtures = require('./fixtures/users.json');
 const LocationFixtures = require('./fixtures/locations.json');
-const ProductFixtures = require('./fixtures/products.json');
-const ImageFixtures = require('./fixtures/images.json');
 
 //options
 const force = process.argv.includes('--force');
@@ -20,13 +16,13 @@ const addFixtures = () =>
   Promise.resolve().then(() =>
     console.log('ADDING FIXTURES...')
   ).then(() =>
-    console.log('CREATING LOCATIONS') || User.bulkCreate(UserFixtures)
+    console.log('CREATING LOCATIONS')
   ).then(() =>
-    console.log('CREATING USERS') || Location.bulkCreate(LocationFixtures)
+    User.bulkCreate(UserFixtures)
   ).then(() =>
-    console.log('CREATING PRODUCTS') || Product.bulkCreate(ProductFixtures)
+    console.log('CREATING USERS')
   ).then(() =>
-    console.log('CREATING IMAGES') || Image.bulkCreate(ImageFixtures)
+    Location.bulkCreate(LocationFixtures)
   );
 
 console.log('SYNCING', force
@@ -34,13 +30,13 @@ console.log('SYNCING', force
   : 'NON-FORCEFULLY');
 
 Promise.resolve().then(() =>
-  console.log('SYNCING USER SCHEMA') || User.sync({ force })
+  console.log('SYNCING USER SCHEMA')
 ).then(() =>
-  console.log('SYNCING LOCATION SCHEMA') || Location.sync({ force })
+  User.sync({ force })
 ).then(() =>
-  console.log('SYNCING PRODUCT SCHEMA') || Product.sync({ force })
+  console.log('SYNCING LOCATION SCHEMA')
 ).then(() =>
-  console.log('SYNCING IMAGE SCHEMA') || Image.sync({ force })
+  Location.sync({ force })
 ).then(() =>
   fixtures && addFixtures()
 ).then(() =>
