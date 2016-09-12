@@ -41,6 +41,8 @@ npm run migrate
 npm start
 ```
 
+Append `-- --force --fixtures` to `npm run migrate` if you would like dummy data.
+
 ### Roadmap
 
 View the project roadmap [here](LINK_TO_PROJECT_ISSUES)

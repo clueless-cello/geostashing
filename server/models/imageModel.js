@@ -1,19 +1,17 @@
 const Sequelize = require('sequelize');
 const db = require('./db');
 
-const User = db.define('user', {
+const Image = db.define('image', {
   id: {
     type: Sequelize.UUID,
     unique: true,
     primaryKey: true,
     defaultValue: Sequelize.UUIDV4
   },
-  name: {
+  url: {
     type: Sequelize.STRING,
-    unique: true,
     allowNull: false
-  },
-  password: { type: Sequelize.STRING }
+  }
 });
 
-module.exports = User;
+module.exports = Image;

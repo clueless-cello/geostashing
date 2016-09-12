@@ -1,10 +1,10 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const server = require('../server/server.js');
+const server = require('../server/server');
+
+const Location = require('../server/models/locationModel');
 
 chai.use(chaiHttp);
-
-const curTestUser = { model: null };
 
 describe('locations api endpoint (/api/locations)', () => {
   it('should return json from GET /api/locations', (done) => {
@@ -24,28 +24,17 @@ describe('locations api endpoint (/api/locations)', () => {
         done();
       }).catch(done);
   });
-  it('should create test user data with valid data', (done) => {
-    // Since foreign keys are required and automatically generated:
-    // We need to create a user for the test and use resulting id.
-    chai
-      .request(server)
-      .post('/api/users')
-      .set('Content-Type', 'application/json')
-      .send(JSON.stringify({ name: 'testUserServerSpec' }))
-      .then((res) => {
-        curTestUser.model = res.body;
-        done();
-      }).catch(done);
-  });
+
   it('should accept post requests with valid data', (done) => {
+    Location.destroy({ where: { name: 'a_test_location' } });
+
     chai
       .request(server)
       .post('/api/locations')
       .send({
-        name: 'test',
-        lat: '123.456789',
-        lng: '123.456789',
-        userId: curTestUser.model.id
+        name: 'a_test_location',
+        lat: 123.456789,
+        lng: 123.456789
       })
       .then((res) => {
         res.should.have.status(200);
@@ -82,8 +71,7 @@ describe('locations api endpoint (/api/locations)', () => {
     const reqData = {
       name: 'firstTest',
       lat: '123.456789',
-      lng: '987.654321',
-      userId: curTestUser.model.id
+      lng: '987.654321'
     };
 
     chai.request(server).post('/api/locations')
@@ -112,17 +100,4 @@ describe('locations api endpoint (/api/locations)', () => {
       .then(() => done())
       .catch(done);
   });
-
-  it('should delete test user data', (done) => {
-    chai
-      .request(server)
-      .delete('/api/users/testUserServerSpec')
-      .then((res) => {
-        res.should.have.status(200);
-        res.body.should.eql([]);
-      })
-      .then(() => done())
-      .catch(done);
-  });
-
 });

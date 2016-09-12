@@ -1,17 +1,20 @@
 [
   {
+    "id": "eea678b1-07bd-458a-a64b-69ef7c0dd6ca",
     "name": "Jon\"s Test Location",
     "lng": 123.456789,
     "lat": 123.456789,
     "userId": "df00ade3-bd8e-427d-8538-89f0b663dc00"
   },
   {
+    "id": "216d00fa-e94c-4d41-83b4-95dc57d11052",
     "name": "Hack Reactor",
     "lng": -122.4087025,
     "lat": 37.7840795,
     "userId": "216d00fa-e94c-4d41-83b4-95dc57d11052"
   },
   {
+    "id": "b9d186da-b5bf-48cd-a5b7-914a4af91a39",
     "name": "Daly City",
     "lng": -122.47077941894531,
     "lat": 37.685926005279256,
