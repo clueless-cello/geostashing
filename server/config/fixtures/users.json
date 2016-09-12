@@ -1,16 +1,10 @@
 [
   {
-    "name": "jon",
+    "name": "testOne",
     "id": "216d00fa-e94c-4d41-83b4-95dc57d11052"
   },
   {
-    "name": "dan",
+    "name": "testTwo",
     "id": "df00ade3-bd8e-427d-8538-89f0b663dc00"
-  },
-  {
-    "name": "mason"
-  },
-  {
-    "name": "steven"
   }
 ]

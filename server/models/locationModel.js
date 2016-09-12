@@ -13,8 +13,8 @@ const Location = db.define('location', {
   },
   name: {
     type: Sequelize.STRING,
-    unique: false,
-    allowNull: true
+    unique: true,
+    allowNull: false
   },
   lat: {
     type: Sequelize.DECIMAL(totalNumLength, decimalPlaces),
